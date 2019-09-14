@@ -8,3 +8,8 @@ RUN echo "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main" \
   | tee /etc/apt/sources.list.d/microsoft.list
 RUN apt-get update
 RUN ["/bin/bash", "-c", "apt-get install -y libk4a1.2-dev <<< 'yes'"]
+
+COPY . /project
+WORKDIR /project
+
+RUN julia -e 'using Pkg; cd(joinpath("src", "wrapper_generator")); pkg"activate ."; pkg"instantiate"'
